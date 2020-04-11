@@ -1,48 +1,43 @@
 import React, { Component } from 'react';
+import './estilos.css'
 
 class App extends Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            nome: "",
-            email: "",
-            senha: ""
+            textoFrase: ""
         }
-        this.cadastrar = this.cadastrar.bind(this)
-    }
-    cadastrar(event){
-        const {nome, email, senha} = this.state;
-        if (nome !== "" && email !== "" && senha !== "") {
-            alert(nome + " | " + email + " | " + senha)
+        this.quebraBiscoito = this.quebraBiscoito.bind(this)
 
-        }else{
-            alert("Preencha todos os campos")
-        }
-        event.preventDefault();
+        this.frases = [
+            "A vida trará coisas boas se tiver paciência.",
+            "Demonstre amor e alegria em todas as oportunidades e verá que a paz nasce dentro de si.",
+            "Não compense na ira o que lhe falta na razão.",
+            "Defeitos e virtudes são apenas dois lados da mesma moeda.",
+            "A maior de todas as torres começa no solo.",
+            "Não há que ser forte. Há que ser flexível.",
+            "Todos os dias organiza os seus cabelos, por que não faz o mesmo com o coração?"
+
+        ]
+    }
+
+    quebraBiscoito() {
+        let state = this.state
+        let numeroAleatorio = Math.floor(Math.random() * this.frases.length)
+        state.textoFrase = ' " ' + this.frases[numeroAleatorio] + ' " ' 
+        this.setState(state)
     }
 
     render() {
         return (
-            <div>
-                <h1>Novo usuário</h1>
-                <form onSubmit={this.cadastrar}>
-                    <label>Nome</label>
-                    <input type="text" value={this.state.nome}
-                        onChange={(e) => this.setState({ nome: e.target.value })} />
-                    <br></br>
-                    <label>Email</label>
-                    <input type="email" value={this.state.email}
-                        onChange={(e) => this.setState({ email: e.target.value })} />
-                    <br></br>
-                    <label>Senha</label>
-                    <input type="password" value={this.state.senha}
-                        onChange={(e) => this.setState({ senha: e.target.value })} />
-                    <br></br>
-                <button type="submit">Cadastrar</button>
-                </form>
+            <div className="container">
+                <img alt="a" src={require('./assets/biscoito.png')} className="img" />
+                <button onClick={this.quebraBiscoito} >Quebra Biscoito</button>
+                <h3 className="textoFrase">{this.state.textoFrase}</h3>
             </div >
         )
     }
 }
+
 export default App;
