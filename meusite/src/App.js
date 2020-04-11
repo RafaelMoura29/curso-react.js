@@ -6,35 +6,52 @@ class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            textoFrase: ""
+            numero: 0,
+            botao: "iniciar"
         }
-        this.quebraBiscoito = this.quebraBiscoito.bind(this)
-
-        this.frases = [
-            "A vida trará coisas boas se tiver paciência.",
-            "Demonstre amor e alegria em todas as oportunidades e verá que a paz nasce dentro de si.",
-            "Não compense na ira o que lhe falta na razão.",
-            "Defeitos e virtudes são apenas dois lados da mesma moeda.",
-            "A maior de todas as torres começa no solo.",
-            "Não há que ser forte. Há que ser flexível.",
-            "Todos os dias organiza os seus cabelos, por que não faz o mesmo com o coração?"
-
-        ]
+        this.timer = null
+        this.limpar = this.limpar.bind(this)
+        this.vai = this.vai.bind(this)
     }
 
-    quebraBiscoito() {
+    vai() {
+
+        if (this.timer !== null) {
+            clearInterval(this.timer)
+            this.timer = null
+            let state = this.state
+            state.botao = "iniciar"
+            this.setState(state)
+        } else {
+            this.timer = setInterval(() => {
+                let state = this.state
+                state.numero += 0.1
+                state.botao = "pausar"
+                this.setState(state)
+            }, 100)
+        }
+    }
+
+    limpar() {
+        if (this.timer !== null) {
+clearInterval(this.timer)            
+this.timer = null
+        }
         let state = this.state
-        let numeroAleatorio = Math.floor(Math.random() * this.frases.length)
-        state.textoFrase = ' " ' + this.frases[numeroAleatorio] + ' " ' 
+        state.botao = "iniciar"
+        state.numero = 0
         this.setState(state)
     }
 
     render() {
         return (
             <div className="container">
-                <img alt="a" src={require('./assets/biscoito.png')} className="img" />
-                <button onClick={this.quebraBiscoito} >Quebra Biscoito</button>
-                <h3 className="textoFrase">{this.state.textoFrase}</h3>
+                <img alt="cronometro" src={require('./assets/cronometro.jpg')} className="img" />
+                <p className="timer" href="#">{this.state.numero.toFixed(1)}</p>
+                <div className="areaBtn">
+                    <a className="botao" onClick={this.vai}>{this.state.botao}</a>
+                    <a className="botao" onClick={this.limpar}>Limpar</a>
+                </div>
             </div >
         )
     }
